@@ -17,8 +17,6 @@ python main.py bot_0
 ```
 
 ## Installation
-Ubuntu 16.04+ 
-
 Install python dependencies
 ```
 pip install invoke
@@ -36,11 +34,3 @@ cp geckodriver /usr/local/bin/
 
 ## Setup
 Insert your credentials into credentials.json file
-
-## Usage
-python main.py
-
-
-
-
-
