@@ -1,5 +1,9 @@
 # attendance_app
 ## Usage
+#### Visit all lessons one time
+```
+python main.py visit
+```
 #### Scrape today's schedule
 ```
 python main.py scrape

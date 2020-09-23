@@ -27,6 +27,17 @@ def scrape_schedule(creds_file_path: str) -> None:
     site.write_schedule(r)  # writes it into file
 
 
+def visit_all_lessons(creds_file_path: str) -> None:
+    auth = Auth()
+    credentials: dict = read_json_file(creds_file_path)
+
+    logged_session = auth.login(
+        username=credentials["username"], password=credentials["password"]
+    )  # login
+    site = SiteEvents(logged_session)  # Provide logged in session to class
+    site.go_to_lesson()  # Visit all lessons
+
+
 def activate_bot(creds_file_path: str, headless: bool = True) -> None:
     credentials: dict = read_json_file(creds_file_path)
 
@@ -47,6 +58,11 @@ if __name__ == "__main__":
     if sys.argv[1] == "scrape":
         logger.info("Scraper started its' work")
         scrape_schedule(creds_file_path="credentials.json")
+        logger.info("Finished")
+
+    elif "visit" == sys.argv[1]:
+        logger.info("Visiting lessons")
+        visit_all_lessons(creds_file_path="credentials.json")
         logger.info("Finished")
 
     elif "bot" in sys.argv[1]:
