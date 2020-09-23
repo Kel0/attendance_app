@@ -137,3 +137,14 @@ class SiteEvents:
                 ]
                 return objects
         return None
+
+    def go_to_lesson(self) -> None:
+        schedule = self.get_todays_schedule()
+        if schedule is None:
+            raise ValueError("No schedule")
+
+        for subject in schedule:
+            self.login_session.get(
+                url=f"https://zhambyltipo.kz{subject['link']}", headers=HEADERS
+            )
+            logger.info(f"Requested https://zhambyltipo.kz{subject['link']}")
