@@ -111,31 +111,37 @@ class SiteEvents:
                 continue
 
             date: str = date_span.text.strip()
-            if str(date) == str(today_date):
-                objects: list = [
-                    {
-                        "time": [
+            subjects: List[Dict[str, str]] = []
+
+            if str(date) != str(today_date):
+                continue
+
+            for subject in schedules_objects:
+                temp_dict: Dict[str, str] = {}
+
+                try:
+                    if subject.find_all("td")[key].find("div").find("a"):
+                        temp_dict["time"] = [
                             time
-                            for time in object_.find_all("td")[0].text.split(
+                            for time in subject.find_all("td")[0].text.split(
                                 " "
                             )  # split time text 09:00-09:35
                             if len(time) > 4
-                        ][
-                            0
-                        ],  # get time of subject
-                        "link": (
-                            object_.find_all("td")[key]
+                        ][0]
+
+                        temp_dict["link"] = (
+                            subject.find_all("td")[key]
                             .find("div")
                             .find("a")
-                            .get("href")
-                        ),  # get link of subject
-                    }
-                    for object_ in schedules_objects
-                    if (
-                        object_.find_all("td")[key].find("div").find("a")
-                    )  # if element <a> is not None
-                ]
-                return objects
+                            .get("href", "no_href")
+                        )  # get link of subject
+
+                        subjects.append(temp_dict)
+                except AttributeError as e_info:
+                    logger.warning(e_info)
+                    continue
+
+            return subjects
         return None
 
     def go_to_lesson(self) -> None:

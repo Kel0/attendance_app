@@ -1,5 +1,9 @@
 # attendance_app
 ## Usage
+#### Run visitor in polling
+```
+python main.py polling
+```
 #### Visit all lessons one time
 ```
 python main.py visit
