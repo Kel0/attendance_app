@@ -7,6 +7,8 @@ from app.services.swagger import Auth, SiteEvents
 from app.services.utils import read_json_file
 from platform import platform
 
+import time
+
 
 def setup_logging(path: str = "logging.json") -> None:
     with open(path, "rt") as f:
@@ -60,7 +62,7 @@ if __name__ == "__main__":
         scrape_schedule(creds_file_path="credentials.json")
         logger.info("Finished")
 
-    elif "visit" == sys.argv[1]:
+    elif sys.argv[1] == "visit":
         logger.info("Visiting lessons")
         visit_all_lessons(creds_file_path="credentials.json")
         logger.info("Finished")
@@ -70,3 +72,11 @@ if __name__ == "__main__":
         logger.info("Launching the bot")
         activate_bot(headless=headless, creds_file_path="credentials.json")
         logger.info("Finished")
+
+    elif sys.argv[1] == "polling":
+        while True:
+            logger.info("Visiting lessons in polling")
+            visit_all_lessons(creds_file_path="credentials.json")
+            logger.info("Finished")
+
+            time.sleep(2400)
