@@ -33,11 +33,14 @@ def visit_all_lessons(creds_file_path: str) -> None:
     auth = Auth()
     credentials: dict = read_json_file(creds_file_path)
 
-    logged_session = auth.login(
-        username=credentials["username"], password=credentials["password"]
-    )  # login
-    site = SiteEvents(logged_session)  # Provide logged in session to class
-    site.go_to_lesson()  # Visit all lessons
+    for credential in credentials:
+        print(credential)
+        logged_session = auth.login(
+            username=credential["username"], password=credential["password"]
+        )  # login
+        print(logged_session)
+        site = SiteEvents(logged_session)  # Provide logged in session to class
+        site.go_to_lesson()  # Visit all lessons
 
 
 def activate_bot(creds_file_path: str, headless: bool = True) -> None:
